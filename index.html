@@ -37,10 +37,7 @@
     display:flex; align-items:baseline; gap:10px;
     letter-spacing:0.5px;
   }
-  .titlebar h1{
-    font-size:20px; margin:0; font-weight:700;
-    color:var(--text);
-  }
+  .titlebar h1{ font-size:20px; margin:0; font-weight:700; color:var(--text); }
   .titlebar span{
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     font-size:11px; color:var(--dim);
@@ -56,24 +53,18 @@
     font-size:13px;
   }
   .hud .grp{ display:flex; align-items:center; gap:8px; }
-  .led{
-    width:8px; height:8px; border-radius:50%;
-    background: var(--dim);
-    box-shadow: none;
-  }
+  .led{ width:8px; height:8px; border-radius:50%; background: var(--dim); }
   .led.on-cyan{ background:var(--cyan); box-shadow:0 0 8px var(--cyan); }
-  .led.on-amber{ background:var(--amber); box-shadow:0 0 8px var(--amber); }
   .led.on-red{ background:var(--red); box-shadow:0 0 8px var(--red); animation: blink 0.6s infinite; }
   @keyframes blink{ 50%{ opacity:0.3; } }
   .hud .val{ color:var(--text); font-weight:600; }
   .hud .lbl{ color:var(--dim); }
-
-  .soundbtn{
+  .iconbtn{
     background:none; border:1px solid var(--panel-line); color:var(--dim);
     border-radius:4px; padding:3px 8px; font-family:monospace; font-size:11px;
     cursor:pointer;
   }
-  .soundbtn.on{ color:var(--cyan); border-color:var(--cyan); }
+  .iconbtn.on{ color:var(--cyan); border-color:var(--cyan); }
 
   .wrap{ position:relative; width:100%; }
   #stage{
@@ -92,8 +83,7 @@
     display:flex; justify-content:space-between;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     font-size:11px; color:var(--dim);
-    flex-wrap:wrap;
-    gap:6px;
+    flex-wrap:wrap; gap:6px;
   }
   .footer kbd{
     background:var(--panel); border:1px solid var(--panel-line);
@@ -113,14 +103,15 @@
     background: linear-gradient(180deg, var(--panel), #131824);
     border:1px solid var(--panel-line);
     border-radius:10px;
-    padding:28px 34px;
+    padding:26px 30px;
     text-align:center;
     min-width:240px;
-    max-width:80%;
+    max-width:88%;
   }
   .card h2{ margin:0 0 6px; font-size:18px; }
-  .card p{ margin:0 0 18px; color:var(--dim); font-size:13px; font-family: monospace; }
-  .card button{
+  .card p{ margin:0 0 16px; color:var(--dim); font-size:13px; font-family: monospace; }
+  .card .stars{ font-size:22px; margin-bottom:14px; letter-spacing:4px; }
+  .card button, .menubtn{
     background: var(--amber);
     color:#1a1200;
     border:none;
@@ -131,52 +122,450 @@
     cursor:pointer;
     letter-spacing:0.3px;
   }
-  .card button:hover{ filter:brightness(1.08); }
+  .card button:hover, .menubtn:hover{ filter:brightness(1.08); }
+  .card .rowbtns{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+  .card .ghostbtn{
+    background:none; border:1px solid var(--panel-line); color:var(--text);
+    padding:10px 18px; border-radius:6px; font-size:13px; cursor:pointer;
+  }
+
+  /* ---- Full screen panels (menu system) ---- */
+  .screen{
+    display:none;
+    flex-direction:column;
+    gap:16px;
+    width:100%;
+    background: linear-gradient(180deg, var(--panel), #131824);
+    border:1px solid var(--panel-line);
+    border-radius:10px;
+    padding:22px 20px;
+  }
+  .screen.show{ display:flex; }
+  .screen h2{ margin:0; font-size:17px; text-align:center; }
+  .screen .sub{ margin:-8px 0 0; text-align:center; color:var(--dim); font-size:12px; font-family:monospace; }
+
+  .menu-stack{ display:flex; flex-direction:column; gap:10px; align-items:stretch; }
+  .menu-stack .menubtn{ width:100%; padding:13px; font-size:14px; }
+  .menu-stack .menubtn.secondary{
+    background:none; border:1px solid var(--panel-line); color:var(--text);
+  }
+
+  .level-grid{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:8px;
+  }
+  .level-tile{
+    aspect-ratio: 0.72;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-radius:6px;
+    border:1px solid var(--panel-line);
+    background: #141b28;
+    color:var(--text);
+    font-family: monospace;
+    font-size:13px;
+    cursor:pointer;
+    gap:3px;
+    padding:4px;
+  }
+  .level-tile.locked{ color:var(--dim); opacity:0.5; cursor:default; }
+  .level-tile .stars{ font-size:9px; color:var(--amber); letter-spacing:1px; }
+  .level-tile.cleared{ border-color: var(--cyan); }
+
+  .howto p{ font-size:13px; line-height:1.6; color:var(--text); margin:0; }
+  .howto .tag-demo{ display:flex; gap:10px; align-items:center; margin:6px 0; font-family:monospace; font-size:12px; }
+  .tag-swatch{ width:16px; height:16px; border-radius:3px; display:inline-block; }
+
+  .settings-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid var(--panel-line);
+    font-size:13px;
+  }
+  .settings-row:last-child{ border-bottom:none; }
+
+  .backbtn{
+    align-self:flex-start;
+    background:none; border:none; color:var(--dim);
+    font-family:monospace; font-size:12px; cursor:pointer;
+    padding:2px 0;
+  }
 
   @media (max-width: 400px){
     .footer .kbdrow{ display:none; }
+  }
+
+  #rotateNotice{
+    display:none;
+    position:fixed; inset:0;
+    background: var(--bg);
+    color: var(--text);
+    z-index: 9999;
+    flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-family: monospace;
+  }
+  #rotateNotice .icon{ font-size:40px; margin-bottom:16px; }
+  @media (orientation: landscape) and (max-height: 500px){
+    #rotateNotice{ display:flex; }
   }
 </style>
 </head>
 <body>
 
+<div id="rotateNotice">
+  <div class="icon">📱</div>
+  <div>화면을 세로로 돌려주세요<br><span style="color:var(--dim); font-size:12px;">GATE BREAKER는 세로 화면에 최적화되어 있습니다</span></div>
+</div>
+
 <div class="rig">
   <div class="titlebar">
     <h1>GATE BREAKER</h1>
-    <span>MODULE CLEAR SYSTEM · v1.1</span>
+    <span>MODULE CLEAR SYSTEM · v2.0</span>
   </div>
 
-  <div class="hud">
-    <div class="grp"><span class="lbl">SCORE</span><span class="val" id="score">0000</span></div>
-    <div class="grp"><span class="lbl">LEVEL</span><span class="val" id="level">01</span></div>
-    <div class="grp">
-      <span class="lbl">GATE</span>
-      <span class="led on-cyan" id="lifeled1"></span>
-      <span class="led on-cyan" id="lifeled2"></span>
-      <span class="led on-cyan" id="lifeled3"></span>
+  <!-- ===== MAIN MENU ===== -->
+  <div class="screen show" id="screen-menu">
+    <h2>SYSTEM MENU</h2>
+    <p class="sub">10개 라인 · 산업 제어반 컨셉 브릭 브레이커</p>
+    <div class="menu-stack">
+      <button class="menubtn" id="btnContinue">이어하기 (LV <span id="continueLv">1</span> · <span id="continueLvName">SYSTEM CHECK</span>)</button>
+      <button class="menubtn secondary" id="btnLevels">라인 선택</button>
+      <button class="menubtn secondary" id="btnHowto">조작 방법</button>
+      <button class="menubtn secondary" id="btnSettings">설정</button>
     </div>
-    <button class="soundbtn on" id="soundBtn">SND:ON</button>
   </div>
 
-  <div class="wrap">
-    <canvas id="stage" width="520" height="420"></canvas>
-    <div id="overlay">
-      <div class="card">
-        <h2 id="ovTitle">SYSTEM READY</h2>
-        <p id="ovSub">모든 모듈을 해제하고 라인을 클리어하세요</p>
-        <button id="ovBtn">START</button>
+  <!-- ===== LEVEL SELECT ===== -->
+  <div class="screen" id="screen-levels">
+    <button class="backbtn" data-back="menu">&lt; 메뉴로</button>
+    <h2>라인 선택</h2>
+    <div class="level-grid" id="levelGrid"></div>
+  </div>
+
+  <!-- ===== HOW TO PLAY ===== -->
+  <div class="screen" id="screen-howto">
+    <button class="backbtn" data-back="menu">&lt; 메뉴로</button>
+    <h2>조작 방법</h2>
+    <div class="howto">
+      <p>PC: 방향키 ←→ 로 게이트 이동, 스페이스바 또는 클릭으로 발사</p>
+      <p>모바일: 화면 드래그로 이동, 탭으로 발사</p>
+      <p style="margin-top:10px;">모듈 등급</p>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#ef5350"></span> CRIT — 고득점 모듈 (30점)</div>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#ffb347"></span> WARN — 중간 등급 (20점)</div>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#4fd1c5"></span> NORM — 기본 모듈 (10점)</div>
+      <p style="margin-top:10px;">파워업</p>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#4fd1c5"></span> W — 게이트 확장</div>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#b39ddb"></span> M — 멀티볼</div>
+      <div class="tag-demo"><span class="tag-swatch" style="background:#ffb347"></span> S — 볼 감속</div>
+    </div>
+  </div>
+
+  <!-- ===== SETTINGS ===== -->
+  <div class="screen" id="screen-settings">
+    <button class="backbtn" data-back="menu">&lt; 메뉴로</button>
+    <h2>설정</h2>
+    <div class="settings-row" style="flex-direction:column; align-items:stretch; gap:6px;">
+      <div style="display:flex; justify-content:space-between;">
+        <span>효과음 볼륨</span>
+        <span class="val" id="volumeLabel">80%</span>
+      </div>
+      <input type="range" id="volumeSlider" min="0" max="100" value="80" style="width:100%;">
+    </div>
+    <div class="settings-row">
+      <span>진행 데이터 초기화</span>
+      <button class="iconbtn" id="resetProgressBtn" style="color:var(--red); border-color:var(--red);">RESET</button>
+    </div>
+    <div class="settings-row">
+      <span>저장 상태</span>
+      <span class="val" id="storageStatus" style="font-size:11px;"></span>
+    </div>
+    <button class="menubtn secondary" id="btnCredits" style="margin-top:8px;">크레딧 / 버전 정보</button>
+  </div>
+
+  <!-- ===== CREDITS ===== -->
+  <div class="screen" id="screen-credits">
+    <button class="backbtn" data-back="settings">&lt; 설정으로</button>
+    <h2>크레딧</h2>
+    <div class="howto">
+      <p><strong>GATE BREAKER — MODULE CLEAR SYSTEM</strong></p>
+      <p style="color:var(--dim);">Version 2.1</p>
+      <p style="margin-top:14px;">기획 · 개발</p>
+      <p style="color:var(--dim);">이정식 (JSL Automation)</p>
+      <p style="margin-top:14px;">기술 스택</p>
+      <p style="color:var(--dim);">HTML5 Canvas, Web Audio API, Vanilla JavaScript</p>
+      <p style="margin-top:14px;">감사합니다. 즐겁게 플레이해주세요!</p>
+    </div>
+  </div>
+
+  <!-- ===== GAME SCREEN ===== -->
+  <div class="screen" id="screen-game" style="gap:12px;">
+    <div class="hud">
+      <button class="backbtn" data-back="menu" style="padding:0;">&lt; 메뉴</button>
+      <div class="grp"><span class="lbl">SCORE</span><span class="val" id="score">0000</span></div>
+      <div class="grp"><span class="lbl">LV</span><span class="val" id="level">01</span></div>
+      <div class="grp" style="font-size:10px;color:var(--dim);" id="levelNameHud"></div>
+      <button class="iconbtn" id="pauseBtn" style="padding:3px 10px;">II</button>
+      <div class="grp">
+        <span class="led on-cyan" id="lifeled1"></span>
+        <span class="led on-cyan" id="lifeled2"></span>
+        <span class="led on-cyan" id="lifeled3"></span>
       </div>
     </div>
+    <div class="wrap">
+      <canvas id="stage" width="520" height="420"></canvas>
+      <div id="overlay">
+        <div class="card">
+          <div class="stars" id="ovStars" style="display:none;"></div>
+          <h2 id="ovTitle">SYSTEM READY</h2>
+          <p id="ovSub">모든 모듈을 해제하고 라인을 클리어하세요</p>
+          <div class="rowbtns">
+            <button id="ovBtn">START</button>
+            <button class="ghostbtn" id="ovBtn2" style="display:none;">메뉴로</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span class="kbdrow"><kbd>←</kbd> <kbd>→</kbd> 이동 · <kbd>SPACE</kbd> 발사</span>
+      <span>터치: 드래그 이동 · 탭 발사</span>
+    </div>
   </div>
 
-  <div class="footer">
-    <span class="kbdrow"><kbd>←</kbd> <kbd>→</kbd> 게이트 이동 · <kbd>SPACE</kbd> 발사</span>
-    <span>터치: 드래그로 이동 · 탭으로 발사</span>
-  </div>
 </div>
 
 <script>
 (function(){
+  // ================= State & progress (persisted via localStorage when available) =================
+  const TOTAL_LEVELS = 15;
+  const STORAGE_KEY = 'gateBreakerProgress_v1';
+
+  const defaultProgress = {
+    unlocked: 1,
+    stars: {},
+    bestScore: {},
+    soundOn: true,
+    volume: 0.8
+  };
+
+  // Detect whether localStorage is actually usable in this environment.
+  // (Some sandboxed preview environments block it entirely.)
+  let storageAvailable = false;
+  try {
+    const testKey = '__gb_test__';
+    window.localStorage.setItem(testKey, '1');
+    window.localStorage.removeItem(testKey);
+    storageAvailable = true;
+  } catch (e) {
+    storageAvailable = false;
+  }
+
+  function loadProgress(){
+    if(!storageAvailable) return { ...defaultProgress, stars:{}, bestScore:{} };
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if(!raw) return { ...defaultProgress, stars:{}, bestScore:{} };
+      const parsed = JSON.parse(raw);
+      return {
+        unlocked: parsed.unlocked || 1,
+        stars: parsed.stars || {},
+        bestScore: parsed.bestScore || {},
+        soundOn: parsed.soundOn !== undefined ? parsed.soundOn : true,
+        volume: parsed.volume !== undefined ? parsed.volume : 0.8
+      };
+    } catch (e) {
+      return { ...defaultProgress, stars:{}, bestScore:{} };
+    }
+  }
+
+  function saveProgress(){
+    if(!storageAvailable) return; // silently skip in environments without storage (e.g. in-chat preview)
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        unlocked: progress.unlocked,
+        stars: progress.stars,
+        bestScore: progress.bestScore,
+        soundOn: progress.soundOn,
+        volume: progress.volume
+      }));
+    } catch (e) {
+      // storage full or blocked mid-session; fail silently, game continues with in-memory state
+    }
+  }
+
+  const progress = loadProgress();
+  let hasSeenTutorial = false;
+  try {
+    hasSeenTutorial = storageAvailable ? window.localStorage.getItem('gateBreakerSeenTutorial_v1') === '1' : false;
+  } catch(e){ hasSeenTutorial = false; }
+
+  let currentLevel = 1;
+
+  // ================= Screen navigation =================
+  const screens = ['menu','levels','howto','settings','credits','game'];
+  function showScreen(name){
+    screens.forEach(s => {
+      document.getElementById('screen-'+s).classList.toggle('show', s === name);
+    });
+    if(name === 'menu') refreshMenu();
+    if(name === 'levels') buildLevelGrid();
+  }
+  document.querySelectorAll('[data-back]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(typeof running !== 'undefined'){ running = false; paused = false; hideOverlayIfExists(); }
+      showScreen(btn.dataset.back);
+    });
+  });
+  function hideOverlayIfExists(){
+    const ov = document.getElementById('overlay');
+    if(ov) ov.classList.remove('show');
+  }
+
+  document.getElementById('btnLevels').addEventListener('click', () => showScreen('levels'));
+  document.getElementById('btnHowto').addEventListener('click', () => showScreen('howto'));
+  document.getElementById('btnSettings').addEventListener('click', () => showScreen('settings'));
+  document.getElementById('btnCredits').addEventListener('click', () => showScreen('credits'));
+  document.getElementById('btnContinue').addEventListener('click', () => {
+    startLevel(progress.unlocked);
+  });
+
+  function refreshMenu(){
+    document.getElementById('continueLv').textContent = String(progress.unlocked).padStart(2,'0');
+    document.getElementById('continueLvName').textContent = LEVEL_NAMES[progress.unlocked-1] || '';
+  }
+
+  function buildLevelGrid(){
+    const grid = document.getElementById('levelGrid');
+    grid.innerHTML = '';
+    for(let lv = 1; lv <= TOTAL_LEVELS; lv++){
+      const tile = document.createElement('div');
+      const locked = lv > progress.unlocked;
+      tile.className = 'level-tile' + (locked ? ' locked' : '') + (progress.stars[lv] ? ' cleared' : '');
+      const starCount = progress.stars[lv] || 0;
+      const lvName = LEVEL_NAMES[lv-1];
+      const best = progress.bestScore[lv];
+      const bestLine = (!locked && best) ? `<div style="font-size:8px;color:var(--amber);">BEST ${best}</div>` : '';
+      tile.innerHTML = `<div>${String(lv).padStart(2,'0')}</div><div style="font-size:8px;color:var(--dim);line-height:1.2;text-align:center;padding:0 2px;">${locked ? '???' : lvName}</div><div class="stars">${'★'.repeat(starCount)}${'☆'.repeat(3-starCount)}</div>${bestLine}`;
+      if(!locked){
+        tile.addEventListener('click', () => startLevel(lv));
+      }
+      grid.appendChild(tile);
+    }
+  }
+
+  // ================= Settings =================
+  function setSoundUI(){
+    const slider = document.getElementById('volumeSlider');
+    const label = document.getElementById('volumeLabel');
+    if(slider) slider.value = Math.round(progress.volume * 100);
+    if(label) label.textContent = Math.round(progress.volume * 100) + '%';
+  }
+  document.getElementById('volumeSlider').addEventListener('input', (e) => {
+    progress.volume = Number(e.target.value) / 100;
+    progress.soundOn = progress.volume > 0;
+    setSoundUI();
+  });
+  document.getElementById('volumeSlider').addEventListener('change', () => {
+    saveProgress();
+    ensureAudio();
+    sfx.select();
+  });
+  document.getElementById('resetProgressBtn').addEventListener('click', () => {
+    progress.unlocked = 1;
+    progress.stars = {};
+    progress.bestScore = {};
+    saveProgress();
+    buildLevelGrid();
+    refreshMenu();
+  });
+  setSoundUI();
+
+  {
+    const statusEl = document.getElementById('storageStatus');
+    if(statusEl){
+      statusEl.textContent = storageAvailable ? '저장됨 (기기에 보관)' : '이 화면에서는 저장 안 됨*';
+      statusEl.style.color = storageAvailable ? '#4fd1c5' : '#7c8798';
+    }
+  }
+
+  // ================= Sound (Web Audio, no external assets) =================
+  function vibrate(pattern){
+    try {
+      if(navigator.vibrate) navigator.vibrate(pattern);
+    } catch(e){ /* unsupported, ignore */ }
+  }
+
+  let audioCtx = null;
+  function ensureAudio(){
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+  }
+  function beep(freq, dur, type, gainVal, delay){
+    if(!progress.soundOn || progress.volume <= 0) return;
+    ensureAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type || 'square';
+    osc.frequency.value = freq;
+    const finalGain = (gainVal || 0.06) * progress.volume;
+    gain.gain.value = finalGain;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime + (delay || 0);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(finalGain, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    osc.start(now); osc.stop(now + dur + 0.02);
+  }
+  function sweep(freqFrom, freqTo, dur, type, gainVal, delay){
+    if(!progress.soundOn || progress.volume <= 0) return;
+    ensureAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type || 'sine';
+    const finalGain = (gainVal || 0.06) * progress.volume;
+    gain.gain.value = finalGain;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime + (delay || 0);
+    osc.frequency.setValueAtTime(freqFrom, now);
+    osc.frequency.exponentialRampToValueAtTime(freqTo, now + dur);
+    gain.gain.setValueAtTime(finalGain, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    osc.start(now); osc.stop(now + dur + 0.02);
+  }
+  const sfx = {
+    wall: () => beep(210, 0.05, 'square', 0.035),
+    paddle: (hitPos) => {
+      // hitPos: -1(left edge) .. 1(right edge) -> pitch varies with hit position
+      const base = 380 + Math.abs(hitPos||0) * 160;
+      beep(base, 0.07, 'square', 0.05);
+    },
+    brick: (tag) => {
+      const f = tag === 'CRIT' ? 700 : tag === 'WARN' ? 560 : 460;
+      beep(f, 0.09, 'triangle', 0.06);
+      beep(f*1.5, 0.05, 'triangle', 0.02, 0.02);
+    },
+    brickCrack: () => beep(300, 0.06, 'sawtooth', 0.05),
+    power: () => { beep(700, 0.08, 'sine', 0.06); beep(1050, 0.1, 'sine', 0.06, 0.06); },
+    lose: () => sweep(320, 90, 0.4, 'sawtooth', 0.08),
+    gameover: () => { sweep(300,80,0.5,'sawtooth',0.08); beep(80,0.3,'square',0.06,0.35); },
+    clear: () => {
+      [523,659,784,1047].forEach((f,i) => beep(f, 0.14, 'triangle', 0.07, i*0.11));
+    },
+    allClear: () => {
+      [523,659,784,1047,1319].forEach((f,i) => beep(f, 0.16, 'triangle', 0.08, i*0.1));
+    },
+    select: () => beep(330, 0.04, 'square', 0.03),
+    countdown: () => beep(500, 0.08, 'square', 0.05)
+  };
+  document.querySelectorAll('.menubtn, .level-tile, .backbtn, .iconbtn, .ghostbtn').forEach(()=>{});
+  document.addEventListener('click', (e) => {
+    if(e.target.closest('.menubtn') || e.target.closest('.level-tile') || e.target.closest('.backbtn')){
+      ensureAudio(); sfx.select();
+    }
+  });
+
+  // ================= Canvas game =================
   const canvas = document.getElementById('stage');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
@@ -187,204 +576,207 @@
   const overlay = document.getElementById('overlay');
   const ovTitle = document.getElementById('ovTitle');
   const ovSub = document.getElementById('ovSub');
+  const ovStars = document.getElementById('ovStars');
   const ovBtn = document.getElementById('ovBtn');
-  const soundBtn = document.getElementById('soundBtn');
+  const ovBtn2 = document.getElementById('ovBtn2');
 
-  const ROWS = 5, COLS = 9;
-  const BRICK_W = 50, BRICK_H = 16, BRICK_GAP = 4, BRICK_TOP = 40, BRICK_LEFT = 15;
+  const COLS = 9;
+  const BRICK_W = 50, BRICK_H = 16, BRICK_GAP = 4, BRICK_TOP = 34, BRICK_LEFT = 15;
 
-  const rowStyles = [
-    { color: '#ef5350', tag: 'CRIT' },
-    { color: '#ffb347', tag: 'WARN' },
-    { color: '#ffb347', tag: 'WARN' },
-    { color: '#4fd1c5', tag: 'NORM' },
-    { color: '#4fd1c5', tag: 'NORM' },
+  const TAGS = {
+    NORM: { color:'#4fd1c5', points:10 },
+    WARN: { color:'#ffb347', points:20 },
+    CRIT: { color:'#ef5350', points:30 }
+  };
+
+  // ---- Level layout generator: returns array of {row, col, tag, hp} ----
+  function genLevel(lv){
+    const rows = Math.min(4 + Math.floor(lv/3), 7);
+    const cells = [];
+    const shapeFn = LEVEL_SHAPES[(lv - 1) % LEVEL_SHAPES.length];
+    for(let r = 0; r < rows; r++){
+      for(let c = 0; c < COLS; c++){
+        if(shapeFn(r, c, rows, COLS, lv)){
+          let tag = 'NORM';
+          const depthRatio = r / rows;
+          if(depthRatio < 0.25) tag = 'CRIT';
+          else if(depthRatio < 0.55) tag = 'WARN';
+        let hp = 1;
+        if(tag === 'CRIT'){
+          if(lv >= 8) hp = Math.random() < 0.5 ? 3 : 2;
+          else if(lv >= 5) hp = Math.random() < 0.55 ? 2 : 1;
+          else if(lv >= 3) hp = Math.random() < 0.25 ? 2 : 1;
+        } else if(tag === 'WARN' && lv >= 6){
+          hp = Math.random() < 0.3 ? 2 : 1;
+        }
+        if(lv === TOTAL_LEVELS){
+          // boss level: guarantee a tough core
+          if(tag === 'CRIT') hp = Math.random() < 0.7 ? 3 : 2;
+        }
+          cells.push({ row:r, col:c, tag, hp, maxHp: hp });
+        }
+      }
+    }
+    return cells;
+  }
+
+  const LEVEL_NAMES = [
+    'SYSTEM CHECK',
+    'LOW VOLTAGE',
+    'SIGNAL NOISE',
+    'PRESSURE RISE',
+    'OVERLOAD WARNING',
+    'CIRCUIT STRAIN',
+    'THERMAL SPIKE',
+    'GRID INSTABILITY',
+    'CASCADE FAULT',
+    'RED ALERT',
+    'SYSTEM BREACH',
+    'CRITICAL MASS',
+    'MELTDOWN RISK',
+    'FULL SHUTDOWN',
+    'CORE OVERRIDE'
   ];
 
-  // ---------- Sound (Web Audio, no external assets) ----------
-  let audioCtx = null;
-  let soundOn = true;
-  function ensureAudio(){
-    if(!audioCtx){
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-  }
-  function beep(freq, dur, type, gainVal){
-    if(!soundOn) return;
-    ensureAudio();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type || 'square';
-    osc.frequency.value = freq;
-    gain.gain.value = gainVal || 0.06;
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    const now = audioCtx.currentTime;
-    gain.gain.setValueAtTime(gain.gain.value, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-    osc.start(now);
-    osc.stop(now + dur);
-  }
-  const sfx = {
-    wall: () => beep(220, 0.05, 'square', 0.04),
-    paddle: () => beep(440, 0.06, 'square', 0.05),
-    brick: (tag) => beep(tag === 'CRIT' ? 660 : tag === 'WARN' ? 550 : 480, 0.08, 'triangle', 0.06),
-    power: () => beep(880, 0.12, 'sine', 0.07),
-    lose: () => beep(140, 0.35, 'sawtooth', 0.08),
-    clear: () => { beep(523,0.12,'triangle',0.07); setTimeout(()=>beep(659,0.12,'triangle',0.07),120); setTimeout(()=>beep(784,0.18,'triangle',0.07),240); }
-  };
-  soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    soundBtn.textContent = soundOn ? 'SND:ON' : 'SND:OFF';
-    soundBtn.classList.toggle('on', soundOn);
-    if(soundOn) ensureAudio();
-  });
+  const LEVEL_SHAPES = [
+    // 1: full grid
+    (r,c) => true,
+    // 2: checkerboard
+    (r,c) => (r + c) % 2 === 0,
+    // 3: pyramid
+    (r,c,rows,cols) => { const mid = (cols-1)/2; const half = (r+1); return Math.abs(c-mid) <= half*0.9; },
+    // 4: diamond
+    (r,c,rows,cols) => { const midR=(rows-1)/2, midC=(cols-1)/2; return Math.abs(r-midR)+Math.abs(c-midC) <= Math.max(midR,midC); },
+    // 5: rows with gaps (every 3rd col empty)
+    (r,c) => (c % 3 !== 1),
+    // 6: rings (border hollow center by row parity)
+    (r,c,rows,cols) => { const midR=(rows-1)/2, midC=(cols-1)/2; const d = Math.abs(r-midR)+Math.abs(c-midC); return d >= 1 && d <= Math.max(midR,midC)+0.5; },
+    // 7: dense top, sparse bottom
+    (r,c,rows) => Math.random() < (1 - r/rows*0.6),
+    // 8: vertical stripes
+    (r,c) => (c % 2 === 0),
+    // 9: cross
+    (r,c,rows,cols) => { const midR=Math.floor((rows-1)/2), midC=Math.floor((cols-1)/2); return r===midR || r===midR+1 || c===midC || c===midC-1 || c===midC+1; },
+    // 10: zigzag
+    (r,c) => { const phase = r % 4; if(phase===0) return c < 6; if(phase===1) return c >=3 && c < 9; if(phase===2) return c < 6; return c >=3 && c < 9; },
+    // 11: offset brick wall (brick-laying pattern, alternate row shift)
+    (r,c) => { return r % 2 === 0 ? c % 2 === 0 : c % 2 === 1; },
+    // 12: hourglass
+    (r,c,rows,cols) => { const midR=(rows-1)/2, midC=(cols-1)/2; const distFromMidRow = Math.abs(r-midR)/midR; return Math.abs(c-midC) <= distFromMidRow*midC + 0.6; },
+    // 13: double ring
+    (r,c,rows,cols) => { const midR=(rows-1)/2, midC=(cols-1)/2; const d = Math.abs(r-midR)+Math.abs(c-midC); const maxD = Math.max(midR,midC); return (d>=0.5 && d<=maxD*0.45) || (d>=maxD*0.7 && d<=maxD+0.5); },
+    // 14: sparse random dense (fast reflex level)
+    (r,c) => Math.random() < 0.55,
+    // 15: boss — full dense grid, all rows
+    (r,c) => true
+  ];
 
-  // ---------- Power-ups ----------
+  let bricks = [];
+  let paddle, balls, score, lives, running, launched, ballSpeedMult;
+  let paused = false;
+  let powerups = [];
+  let activeEffects = {};
+
   const POWER_TYPES = [
     { id:'WIDEN', color:'#4fd1c5', label:'W' },
     { id:'MULTI', color:'#b39ddb', label:'M' },
     { id:'SLOW',  color:'#ffb347', label:'S' },
   ];
-  let powerups = [];
-  let activeEffects = {}; // id -> expiry timestamp
 
-  function maybeDropPower(x, y){
-    if(Math.random() < 0.18){
-      const t = POWER_TYPES[Math.floor(Math.random()*POWER_TYPES.length)];
-      powerups.push({ x, y, w:22, h:14, vy:2.2, type:t });
-    }
+  function shade(hex, amt){
+    const num = parseInt(hex.slice(1), 16);
+    let r = (num >> 16) + Math.round(255 * amt);
+    let g = ((num >> 8) & 0xff) + Math.round(255 * amt);
+    let b = (num & 0xff) + Math.round(255 * amt);
+    r = Math.max(0, Math.min(255, r)); g = Math.max(0, Math.min(255, g)); b = Math.max(0, Math.min(255, b));
+    return `rgb(${r},${g},${b})`;
   }
 
-  function applyPower(type){
-    sfx.power();
-    const now = performance.now();
-    if(type.id === 'WIDEN'){
-      paddle.w = 130;
-      activeEffects.WIDEN = now + 9000;
-    } else if(type.id === 'SLOW'){
-      activeEffects.SLOW = now + 7000;
-    } else if(type.id === 'MULTI'){
-      const src = balls[0];
-      if(src){
-        for(let i=0;i<2;i++){
-          const angle = (-Math.PI/2) + (Math.random()*1.0 - 0.5);
-          balls.push({
-            x: src.x, y: src.y, r: src.r,
-            vx: Math.cos(angle)*src.speed, vy: Math.sin(angle)*src.speed,
-            speed: src.speed
-          });
-        }
-      }
-    }
-  }
-
-  function tickEffects(){
-    const now = performance.now();
-    if(activeEffects.WIDEN && now > activeEffects.WIDEN){
-      paddle.w = 90;
-      delete activeEffects.WIDEN;
-    }
-    if(activeEffects.SLOW && now > activeEffects.SLOW){
-      delete activeEffects.SLOW;
-    }
-  }
-
-  let bricks = [];
-  let paddle, balls, score, lives, level, running, launched;
-
-  function initBricks(){
-    bricks = [];
-    for(let r=0; r<ROWS; r++){
-      for(let c=0; c<COLS; c++){
-        bricks.push({
-          x: BRICK_LEFT + c*(BRICK_W+BRICK_GAP),
-          y: BRICK_TOP + r*(BRICK_H+BRICK_GAP),
-          w: BRICK_W, h: BRICK_H,
-          alive: true,
-          color: rowStyles[r].color,
-          tag: rowStyles[r].tag
-        });
-      }
-    }
+  function layoutBricks(cells){
+    return cells.map(cell => ({
+      x: BRICK_LEFT + cell.col*(BRICK_W+BRICK_GAP),
+      y: BRICK_TOP + cell.row*(BRICK_H+BRICK_GAP),
+      w: BRICK_W, h: BRICK_H,
+      alive: true,
+      hp: cell.hp,
+      maxHp: cell.maxHp,
+      tag: cell.tag,
+      color: TAGS[cell.tag].color
+    }));
   }
 
   function resetBalls(){
     launched = false;
     balls = [{
-      x: paddle.x + paddle.w/2,
-      y: paddle.y - 8,
-      r: 6,
-      vx: 0,
-      vy: 0,
-      speed: 4.2 + (level-1)*0.4
+      x: paddle.x + paddle.w/2, y: paddle.y - 8, r: 6,
+      vx: 0, vy: 0,
+      speed: (4.0 + (currentLevel-1)*0.25) * ballSpeedMult
     }];
   }
 
-  function initGame(){
-    score = 0; lives = 3; level = 1; running = false;
-    paddle = { x: W/2 - 45, y: H - 24, w: 90, h: 10, speed: 7 };
-    powerups = [];
-    activeEffects = {};
-    initBricks();
+  function startLevel(lv){
+    currentLevel = lv;
+    score = 0; lives = 3; running = true; paused = false;
+    ballSpeedMult = 1;
+    paddle = { x: W/2 - 57, y: H - 24, w: 115, h: 12, speed: 7 };
+    powerups = []; activeEffects = {};
+    bricks = layoutBricks(genLevel(lv));
     resetBalls();
     updateHUD();
+    showScreen('game');
+    hideOverlay();
+    draw();
   }
 
   function updateHUD(){
     scoreEl.textContent = String(score).padStart(4,'0');
-    levelEl.textContent = String(level).padStart(2,'0');
+    levelEl.textContent = String(currentLevel).padStart(2,'0');
+    const nameEl = document.getElementById('levelNameHud');
+    if(nameEl) nameEl.textContent = LEVEL_NAMES[currentLevel-1] ? `${String(currentLevel).padStart(2,'0')} · ${LEVEL_NAMES[currentLevel-1]}` : '';
     lifeLeds.forEach((led, i) => {
       led.classList.remove('on-cyan','on-red');
-      if(i < lives){
-        led.classList.add(lives === 1 ? 'on-red' : 'on-cyan');
-      }
+      if(i < lives) led.classList.add(lives === 1 ? 'on-red' : 'on-cyan');
     });
   }
 
-  // ---------- Input: keyboard ----------
+  // ---- Input ----
   const keys = {};
   document.addEventListener('keydown', e => {
     keys[e.key] = true;
     if(e.key === ' ' && !launched && running) launchBalls();
+    if((e.key === 'p' || e.key === 'P' || e.key === 'Escape') &&
+       document.getElementById('screen-game').classList.contains('show')){
+      if(paused) closePause(); else openPause();
+    }
     if(['ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
   });
   document.addEventListener('keyup', e => keys[e.key] = false);
 
-  // ---------- Input: mouse ----------
   canvas.addEventListener('mousemove', e => {
     const rect = canvas.getBoundingClientRect();
     const mx = (e.clientX - rect.left) * (W/rect.width);
     movePaddleTo(mx);
   });
-  canvas.addEventListener('click', () => {
-    ensureAudio();
-    if(!launched && running) launchBalls();
-  });
-
-  // ---------- Input: touch ----------
+  canvas.addEventListener('click', () => { ensureAudio(); if(!launched && running) launchBalls(); });
   canvas.addEventListener('touchstart', e => {
     ensureAudio();
     const rect = canvas.getBoundingClientRect();
     const t = e.touches[0];
-    const mx = (t.clientX - rect.left) * (W/rect.width);
-    movePaddleTo(mx);
+    movePaddleTo((t.clientX - rect.left) * (W/rect.width));
     if(!launched && running) launchBalls();
     e.preventDefault();
   }, { passive:false });
-
   canvas.addEventListener('touchmove', e => {
     const rect = canvas.getBoundingClientRect();
     const t = e.touches[0];
-    const mx = (t.clientX - rect.left) * (W/rect.width);
-    movePaddleTo(mx);
+    movePaddleTo((t.clientX - rect.left) * (W/rect.width));
     e.preventDefault();
   }, { passive:false });
 
   function movePaddleTo(mx){
+    if(!paddle) return;
     paddle.x = Math.max(0, Math.min(W - paddle.w, mx - paddle.w/2));
-    if(!launched && balls[0]){ balls[0].x = paddle.x + paddle.w/2; }
+    if(!launched && balls && balls[0]) balls[0].x = paddle.x + paddle.w/2;
   }
 
   function launchBalls(){
@@ -395,22 +787,114 @@
     b.vy = Math.sin(angle) * b.speed;
   }
 
-  function showOverlay(title, sub, btnText){
+  function openPause(){
+    if(!running || paused) return;
+    paused = true;
+    running = false;
+    showOverlay('PAUSED', '게임이 일시정지되었습니다', 'RESUME', {
+      showMenuBtn: true,
+      onBtn: closePause
+    });
+  }
+  function closePause(){
+    paused = false;
+    running = true;
+    hideOverlay();
+  }
+  document.getElementById('pauseBtn').addEventListener('click', () => {
+    ensureAudio();
+    if(paused) closePause(); else openPause();
+  });
+
+  function showOverlay(title, sub, btnText, opts){
+    opts = opts || {};
     ovTitle.textContent = title;
     ovSub.textContent = sub;
     ovBtn.textContent = btnText;
+    ovBtn.style.display = btnText ? 'inline-block' : 'none';
+    ovBtn2.style.display = opts.showMenuBtn ? 'inline-block' : 'none';
+    if(opts.stars !== undefined){
+      ovStars.style.display = 'block';
+      ovStars.textContent = '★'.repeat(opts.stars) + '☆'.repeat(3 - opts.stars);
+    } else {
+      ovStars.style.display = 'none';
+    }
+    ovBtn.onclick = opts.onBtn || (() => {});
     overlay.classList.add('show');
   }
   function hideOverlay(){ overlay.classList.remove('show'); }
+  ovBtn2.addEventListener('click', () => { paused = false; running = false; hideOverlay(); showScreen('menu'); });
 
-  ovBtn.addEventListener('click', () => {
-    ensureAudio();
-    if(ovBtn.textContent === 'START' || ovBtn.textContent === 'RETRY'){
-      initGame();
+  function maybeDropPower(x, y){
+    if(Math.random() < 0.16){
+      const t = POWER_TYPES[Math.floor(Math.random()*POWER_TYPES.length)];
+      powerups.push({ x, y, w:22, h:14, vy:2.2, type:t });
     }
-    running = true;
-    hideOverlay();
-  });
+  }
+  function applyPower(type){
+    sfx.power();
+    vibrate([15,30,15]);
+    const now = performance.now();
+    if(type.id === 'WIDEN'){ paddle.w = 160; activeEffects.WIDEN = now + 9000; }
+    else if(type.id === 'SLOW'){ activeEffects.SLOW = now + 7000; }
+    else if(type.id === 'MULTI'){
+      const src = balls[0];
+      if(src){
+        for(let i=0;i<2;i++){
+          const angle = (-Math.PI/2) + (Math.random()*1.0 - 0.5);
+          balls.push({ x: src.x, y: src.y, r: src.r, vx: Math.cos(angle)*src.speed, vy: Math.sin(angle)*src.speed, speed: src.speed });
+        }
+      }
+    }
+  }
+  function tickEffects(){
+    const now = performance.now();
+    if(activeEffects.WIDEN && now > activeEffects.WIDEN){ paddle.w = 115; delete activeEffects.WIDEN; }
+    if(activeEffects.SLOW && now > activeEffects.SLOW){ delete activeEffects.SLOW; }
+  }
+
+  function computeStars(){
+    const totalBricks = bricks.length;
+    const maxScore = bricks.reduce((s,b) => s + TAGS[b.tag].points * b.maxHp, 0);
+    const ratio = score / Math.max(1, maxScore);
+    if(lives === 3 && ratio > 0.9) return 3;
+    if(lives >= 2) return 2;
+    return 1;
+  }
+
+  function completeLevel(){
+    running = false;
+    const stars = computeStars();
+    progress.stars[currentLevel] = Math.max(progress.stars[currentLevel] || 0, stars);
+    progress.bestScore[currentLevel] = Math.max(progress.bestScore[currentLevel] || 0, score);
+    if(currentLevel === progress.unlocked && currentLevel < TOTAL_LEVELS){
+      progress.unlocked = currentLevel + 1;
+    }
+    saveProgress();
+    if(currentLevel >= TOTAL_LEVELS){
+      sfx.allClear();
+      vibrate([40,60,40,60,80]);
+      showOverlay('ALL LINES CLEARED', `[LV${String(currentLevel).padStart(2,'0')} · ${LEVEL_NAMES[currentLevel-1]}] 포함 전체 ${TOTAL_LEVELS}개 라인 완료! 최종 점수 ${score}`, null, { showMenuBtn:true, stars });
+    } else {
+      sfx.clear();
+      vibrate([30,50,30]);
+      showOverlay('LINE CLEARED', `[LV${String(currentLevel).padStart(2,'0')} · ${LEVEL_NAMES[currentLevel-1]}] 완료 — 점수 ${score}`, 'NEXT LEVEL', {
+        stars,
+        onBtn: () => startLevel(currentLevel + 1)
+      });
+    }
+  }
+
+  function failLevel(){
+    running = false;
+    sfx.gameover();
+    vibrate([100,50,100]);
+    showOverlay('SYSTEM FAILURE', `[LV${String(currentLevel).padStart(2,'0')} · ${LEVEL_NAMES[currentLevel-1]}] 최종 점수 ${score} — 게이트 유닛 소진`, 'RETRY', {
+      showMenuBtn:true,
+      stars: 0,
+      onBtn: () => startLevel(currentLevel)
+    });
+  }
 
   function update(){
     if(!running) return;
@@ -437,43 +921,43 @@
       if(ball.x + ball.r > W){ ball.x = W - ball.r; ball.vx *= -1; sfx.wall(); }
       if(ball.y - ball.r < 0){ ball.y = ball.r; ball.vy *= -1; sfx.wall(); }
 
-      if(ball.y + ball.r > paddle.y &&
-         ball.y + ball.r < paddle.y + paddle.h + 8 &&
-         ball.x > paddle.x - 4 && ball.x < paddle.x + paddle.w + 4 &&
-         ball.vy > 0){
+      if(ball.y + ball.r > paddle.y && ball.y + ball.r < paddle.y + paddle.h + 8 &&
+         ball.x > paddle.x - 4 && ball.x < paddle.x + paddle.w + 4 && ball.vy > 0){
         const hitPos = (ball.x - (paddle.x + paddle.w/2)) / (paddle.w/2);
         const angle = hitPos * (Math.PI/3);
         ball.vx = Math.sin(angle) * ball.speed;
         ball.vy = -Math.cos(angle) * ball.speed;
         ball.y = paddle.y - ball.r - 1;
-        sfx.paddle();
+        sfx.paddle(hitPos);
       }
 
-      if(ball.y - ball.r > H){
-        balls.splice(bi, 1);
-        continue;
-      }
+      if(ball.y - ball.r > H){ balls.splice(bi, 1); continue; }
 
       for(const b of bricks){
         if(!b.alive) continue;
         if(ball.x + ball.r > b.x && ball.x - ball.r < b.x + b.w &&
            ball.y + ball.r > b.y && ball.y - ball.r < b.y + b.h){
-          b.alive = false;
-          score += b.tag === 'CRIT' ? 30 : (b.tag === 'WARN' ? 20 : 10);
-          sfx.brick(b.tag);
+          b.hp -= 1;
+          if(b.hp <= 0){
+            b.alive = false;
+            score += TAGS[b.tag].points;
+            maybeDropPower(b.x + b.w/2, b.y + b.h/2);
+            sfx.brick(b.tag);
+            vibrate(b.tag === 'CRIT' ? 25 : 12);
+          } else {
+            score += Math.floor(TAGS[b.tag].points/2);
+            sfx.brickCrack();
+            vibrate(8);
+          }
           updateHUD();
-          maybeDropPower(b.x + b.w/2, b.y + b.h/2);
 
           const overlapLeft = (ball.x + ball.r) - b.x;
           const overlapRight = (b.x + b.w) - (ball.x - ball.r);
           const overlapTop = (ball.y + ball.r) - b.y;
           const overlapBottom = (b.y + b.h) - (ball.y - ball.r);
           const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-          if(minOverlap === overlapTop || minOverlap === overlapBottom){
-            ball.vy *= -1;
-          } else {
-            ball.vx *= -1;
-          }
+          if(minOverlap === overlapTop || minOverlap === overlapBottom) ball.vy *= -1;
+          else ball.vx *= -1;
           break;
         }
       }
@@ -482,16 +966,11 @@
     if(balls.length === 0){
       lives -= 1;
       updateHUD();
+      if(lives <= 0){ failLevel(); return; }
       sfx.lose();
-      if(lives <= 0){
-        running = false;
-        showOverlay('SYSTEM FAILURE', `최종 점수 ${score}점 — 게이트 유닛 소진`, 'RETRY');
-        return;
-      }
       resetBalls();
     }
 
-    // power-up falling + collection
     for(let pi = powerups.length - 1; pi >= 0; pi--){
       const p = powerups[pi];
       p.y += p.vy;
@@ -504,132 +983,76 @@
     }
 
     if(bricks.every(b => !b.alive)){
-      level += 1;
-      running = false;
-      initBricks();
-      resetBalls();
-      powerups = [];
-      updateHUD();
-      sfx.clear();
-      showOverlay('LINE CLEARED', `LEVEL ${level} 진입 — 속도 증가`, 'CONTINUE');
+      completeLevel();
     }
 
     draw();
   }
 
-  function shade(hex, amt){
-    const num = parseInt(hex.slice(1), 16);
-    let r = (num >> 16) + Math.round(255 * amt);
-    let g = ((num >> 8) & 0xff) + Math.round(255 * amt);
-    let b = (num & 0xff) + Math.round(255 * amt);
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
-    return `rgb(${r},${g},${b})`;
-  }
-
   function draw(){
     ctx.clearRect(0,0,W,H);
-
-    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,0.03)'; ctx.lineWidth = 1;
     for(let x=0; x<W; x+=20){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
     for(let y=0; y<H; y+=20){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
 
     for(const b of bricks){
       if(!b.alive) continue;
-
-      // base metallic gradient (top-lit panel look)
+      const damaged = b.hp < b.maxHp;
+      const hpDarken = b.maxHp >= 3 ? -0.15 : 0;
+      const baseColor = shade(damaged ? shade(b.color, -0.25) : b.color, hpDarken);
       const bg = ctx.createLinearGradient(b.x, b.y, b.x, b.y + b.h);
-      bg.addColorStop(0, shade(b.color, 0.35));
-      bg.addColorStop(0.45, b.color);
-      bg.addColorStop(1, shade(b.color, -0.35));
+      bg.addColorStop(0, shade(baseColor, 0.35));
+      bg.addColorStop(0.45, baseColor);
+      bg.addColorStop(1, shade(baseColor, -0.35));
       ctx.fillStyle = bg;
       ctx.fillRect(b.x, b.y, b.w, b.h);
 
-      // brushed horizontal grain lines
       ctx.save();
-      ctx.beginPath();
-      ctx.rect(b.x, b.y, b.w, b.h);
-      ctx.clip();
-      ctx.strokeStyle = 'rgba(0,0,0,0.12)';
-      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.rect(b.x, b.y, b.w, b.h); ctx.clip();
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)'; ctx.lineWidth = 1;
       for(let gy = b.y + 2; gy < b.y + b.h; gy += 3){
-        ctx.beginPath();
-        ctx.moveTo(b.x, gy);
-        ctx.lineTo(b.x + b.w, gy);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(b.x, gy); ctx.lineTo(b.x + b.w, gy); ctx.stroke();
       }
       ctx.restore();
 
-      // bevel: light top/left edge, dark bottom/right edge
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(b.x + 0.5, b.y + b.h - 1);
-      ctx.lineTo(b.x + 0.5, b.y + 0.5);
-      ctx.lineTo(b.x + b.w - 1, b.y + 0.5);
-      ctx.stroke();
-
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(b.x + 0.5, b.y + b.h - 1); ctx.lineTo(b.x + 0.5, b.y + 0.5); ctx.lineTo(b.x + b.w - 1, b.y + 0.5); ctx.stroke();
       ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-      ctx.beginPath();
-      ctx.moveTo(b.x + b.w - 0.5, b.y + 1);
-      ctx.lineTo(b.x + b.w - 0.5, b.y + b.h - 0.5);
-      ctx.lineTo(b.x + 1, b.y + b.h - 0.5);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(b.x + b.w - 0.5, b.y + 1); ctx.lineTo(b.x + b.w - 0.5, b.y + b.h - 0.5); ctx.lineTo(b.x + 1, b.y + b.h - 0.5); ctx.stroke();
 
-      // corner rivets
       ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      const rv = 1.4;
       [[b.x+4,b.y+4],[b.x+b.w-4,b.y+4],[b.x+4,b.y+b.h-4],[b.x+b.w-4,b.y+b.h-4]].forEach(([rx,ry]) => {
-        ctx.beginPath();
-        ctx.arc(rx, ry, rv, 0, Math.PI*2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(rx, ry, 1.4, 0, Math.PI*2); ctx.fill();
       });
-
-      // outer edge
       ctx.strokeStyle = 'rgba(0,0,0,0.45)';
       ctx.strokeRect(b.x + 0.5, b.y + 0.5, b.w - 1, b.h - 1);
 
-      ctx.fillStyle = 'rgba(0,0,0,0.6)';
-      ctx.font = '8px monospace';
-      ctx.fillText(b.tag, b.x + 8, b.y + 11);
+      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.font = '8px monospace';
+      ctx.fillText(b.maxHp > 1 ? `${b.tag} x${b.hp}` : b.tag, b.x + 4, b.y + 11);
     }
 
-    // power-ups
     for(const p of powerups){
-      ctx.fillStyle = p.type.color;
-      ctx.globalAlpha = 0.9;
+      ctx.fillStyle = p.type.color; ctx.globalAlpha = 0.9;
       ctx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
       ctx.globalAlpha = 1;
-      ctx.fillStyle = '#0b0f16';
-      ctx.font = 'bold 10px monospace';
+      ctx.fillStyle = '#0b0f16'; ctx.font = 'bold 10px monospace';
       ctx.fillText(p.type.label, p.x - 3, p.y + 4);
     }
 
-    // paddle (widen effect tint)
     const grad = ctx.createLinearGradient(paddle.x, 0, paddle.x + paddle.w, 0);
     const midColor = activeEffects.WIDEN ? '#a9ffe8' : '#c7cedb';
-    grad.addColorStop(0, '#3a4356');
-    grad.addColorStop(0.5, midColor);
-    grad.addColorStop(1, '#3a4356');
+    grad.addColorStop(0, '#3a4356'); grad.addColorStop(0.5, midColor); grad.addColorStop(1, '#3a4356');
     ctx.fillStyle = grad;
     ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
-    ctx.strokeStyle = '#0b0f16';
-    ctx.strokeRect(paddle.x, paddle.y, paddle.w, paddle.h);
+    ctx.strokeStyle = '#0b0f16'; ctx.strokeRect(paddle.x, paddle.y, paddle.w, paddle.h);
 
-    // balls
     for(const ball of balls){
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
       ctx.fillStyle = activeEffects.SLOW ? '#4fd1c5' : '#ffb347';
-      ctx.shadowColor = ctx.fillStyle;
-      ctx.shadowBlur = 12;
-      ctx.fill();
-      ctx.shadowBlur = 0;
+      ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 12;
+      ctx.fill(); ctx.shadowBlur = 0;
     }
 
-    // active effect indicator strip
     let ix = 8;
     Object.keys(activeEffects).forEach(key => {
       ctx.fillStyle = key === 'WIDEN' ? '#4fd1c5' : '#ffb347';
@@ -639,15 +1062,25 @@
     });
   }
 
-  function loop(){
-    update();
-    requestAnimationFrame(loop);
-  }
+  function loop(){ update(); requestAnimationFrame(loop); }
 
-  initGame();
-  draw();
-  showOverlay('SYSTEM READY', '모든 모듈을 해제하고 라인을 클리어하세요', 'START');
+  // ================= init =================
+  running = false;
+  balls = [];
+  bricks = [];
+  refreshMenu();
   loop();
+
+  if(!hasSeenTutorial){
+    showScreen('howto');
+    document.getElementById('screen-howto').querySelector('.backbtn').textContent = '< 확인했어요, 메뉴로';
+  }
+  document.getElementById('screen-howto').querySelector('.backbtn').addEventListener('click', () => {
+    if(!hasSeenTutorial){
+      hasSeenTutorial = true;
+      try { if(storageAvailable) window.localStorage.setItem('gateBreakerSeenTutorial_v1', '1'); } catch(e){}
+    }
+  });
 })();
 </script>
 
